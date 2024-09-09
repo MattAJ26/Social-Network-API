@@ -26,7 +26,7 @@ module.exports = {
     }
   },
   // Creates a new Thought. Accepts a request body with the entire Thought object.
-  // Because Thoughts are associated with Users, we then update the User who created the app and add the ID of the Thought to the Thoughts array
+  // Because Thoughts are associated with Users, we then update the User who created the thought and add the ID of the Thought to the Thoughts array
   async createThought(req, res) {
     try {
       const Thought = await Thought.create(req.body);
@@ -67,8 +67,8 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Deletes an Thought from the database. Looks for an app by ID.
-  // Then if the app exists, we look for any users associated with the app based on he app ID and update the Thoughts array for the User.
+  // Deletes an Thought from the database. Looks for a thought by ID.
+  // Then if the thought exists, we look for any users associated with the thought based on the thought ID and update the Thoughts array for the User.
   async deleteThought(req, res) {
     try {
       const Thought = await Thought.findOneAndRemove({ _id: req.params.ThoughtId });
@@ -112,7 +112,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Remove Thought Reaction. This method finds the Thought based on ID. It then updates the Reactions array associated with the app in question by removing it's ReactionId from the Reactions array.
+  // Remove Thought Reaction. This method finds the Thought based on ID. It then updates the Reactions array associated with the thought in question by removing it's ReactionId from the Reactions array.
   async deleteReaction(req, res) {
     try {
       const Thought = await Thought.findOneAndUpdate(
