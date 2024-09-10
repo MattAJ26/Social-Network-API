@@ -14,7 +14,8 @@ const userSchema = new Schema(
         required: true,
         unique: true,
         validate: [validateEmail, 'Please fill a valid email address'],
-        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'] //easier/cleaner way to validate?//
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'] 
+        //easier/cleaner way to validate?//
     },
     thoughts: [Thought], //need to pass in type, etc.??//
     friends: //need to self-reference User model to find friends//
