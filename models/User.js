@@ -9,16 +9,25 @@ const userSchema = new Schema(
       unique: true,
       trim: true,
     },
-      email: {
-        type: String,
-        required: true,
-        unique: true,
-        validate: [validateEmail, 'Please fill a valid email address'],
-        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'] 
-        //easier/cleaner way to validate?//
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
     },
-    thoughts: [Thought], //need to pass in type, etc.??//
-    friends: //need to self-reference User model to find friends//
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,  // _id: 
+        ref: 'Thought'
+      }
+    ],
+    //need to self-reference User model to find friends//
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ]
   },
   {
     toJSON: {
