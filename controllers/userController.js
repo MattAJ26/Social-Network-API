@@ -73,13 +73,9 @@ async addFriend(req, res) {
   try {
     const { friendId } = req.body; // Extract friendId from the request body
 
-    // Validate the userId and friendId to ensure they are valid ObjectIds
-    if (!mongoose.Types.ObjectId.isValid(req.params.userId) || !mongoose.Types.ObjectId.isValid(friendId)) {
-      return res.status(400).json({ message: 'Invalid User or Friend ID' });
-    }
     const user = await User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $addToSet: { friends: Types.ObjectId(friendId) } },
+      { $addToSet: { friends: friendId } },
       { runValidators: true, new: true }
     );
 
@@ -89,15 +85,18 @@ async addFriend(req, res) {
 
     res.json(user);
   } catch (err) {
-    res.status(500).json(err);
+    console.error('Error in addFriend:', err);
+    res.status(500).json({ message: 'Internal server error', error: err.message });
   }
 },
 // Remove Friend from User
 async deleteFriend(req, res) {
   try {
+    const { friendId } = req.params; // Extract friendId from the request body
+
     const user = await User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $pull: { reactions: { friendId: req.params.friendId } } },
+      { $pull: { friends: friendId } },
       { runValidators: true, new: true }
     );
 
@@ -107,7 +106,8 @@ async deleteFriend(req, res) {
 
     res.json(user);
   } catch (err) {
-    res.status(500).json(err);
+    console.error('Error in deleteFriend:', err);
+    res.status(500).json({ message: 'Internal server error', error: err.message });
   }
 },
 };
